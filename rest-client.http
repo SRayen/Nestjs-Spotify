@@ -1,0 +1,20 @@
+
+POST http://localhost:3000/songs
+Content-Type: application/json
+
+{"title": "Song Title",
+    "artists": ["Raymond"],
+    "releasedDate":"2022-09-22",
+"duration": "02:34"
+}
+###
+
+
+GET http://localhost:3000/songs
+###
+GET http://localhost:3000/songs/1
+###
+PUT  http://localhost:3000/songs/1
+###
+DELETE  http://localhost:3000/songs/1
+
