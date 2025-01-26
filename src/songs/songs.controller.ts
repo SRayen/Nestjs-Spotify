@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-song-dto';
+import { Song } from './song.entity';
 
 @Controller('songs')
 export class SongsController {
@@ -41,8 +42,8 @@ export class SongsController {
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
-  ): string {
-    return `This action returns song #${typeof id}`;
+  ): Promise<Song> {
+    return this.songsService.findOne(id);
   }
 
   @Put(':id')

@@ -29,4 +29,8 @@ export class SongsService {
   findAll(): Promise<Song[]> {
     return this.songsRepository.find();
   }
+
+  findOne(id: number): Promise<Song> {
+    return this.songsRepository.findOneBy({ id });
+  }
 }
