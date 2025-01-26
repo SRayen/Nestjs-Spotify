@@ -13,7 +13,8 @@ import {
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-song-dto';
 import { Song } from './song.entity';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { UpdateSongDTO } from './dto/update-song-dto';
 
 @Controller('songs')
 export class SongsController {
@@ -48,8 +49,11 @@ export class SongsController {
   }
 
   @Put(':id')
-  update() {
-    return 'This action updates a #id song';
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSongDTO: UpdateSongDTO,
+  ): Promise<UpdateResult> {
+    return this.songsService.update(id, updateSongDTO);
   }
   @Delete(':id')
   delete(
