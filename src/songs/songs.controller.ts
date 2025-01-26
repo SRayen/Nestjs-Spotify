@@ -1,23 +1,56 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Connection } from './../common/constants/connection';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDTO } from './dto/create-song-dto';
 
 @Controller('songs')
 export class SongsController {
-  constructor(public songsService: SongsService) {}
+  constructor(
+    public songsService: SongsService,
+    @Inject('CONNECTION')
+    private connection: Connection,
+  ) {
+    console.log(this.connection);
+  }
 
   @Post()
-  create(@Body() createSongDTO:CreateSongDTO) {
+  create(@Body() createSongDTO: CreateSongDTO) {
     return this.songsService.create(createSongDTO);
   }
   @Get()
   findAll() {
-    return this.songsService.findAll();
+    try {
+      return this.songsService.findAll();
+    } catch (error) {
+      throw new HttpException(
+        'server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        { cause: error },
+      );
+    }
   }
 
   @Get(':id')
-  findOne() {
-    return 'This action returns a #id song';
+  findOne(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): string {
+    return `This action returns song #${typeof id}`;
   }
 
   @Put(':id')

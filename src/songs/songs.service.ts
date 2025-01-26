@@ -8,6 +8,7 @@ export class SongsService {
     this.songs.push(song);
   }
   findAll() {
+    throw new Error('Error in DB while fetching songs');
     return this.songs;
   }
 }
