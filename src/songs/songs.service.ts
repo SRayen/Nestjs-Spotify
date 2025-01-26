@@ -21,12 +21,7 @@ export class SongsService {
     song.lyrics = songDTO.lyrics;
     song.releasedDate = songDTO.releasedDate;
 
-    console.log(songDTO.artists);
-
-    // find all the artits on the based on ids
     const artists = await this.artistsRepository.findByIds(songDTO.artists);
-    console.log(artists);
-    //set the relation with artist and songs
     song.artists = artists;
 
     return this.songsRepository.save(song);
